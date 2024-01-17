@@ -1,23 +1,23 @@
 # Linked list
 
 
-Here's some example code for creating a linked list to represent the data 1 --> 2 --> 3. As you can see, the class that defines a node has a field val which will hold the data, and a next pointer which references the next node. In the code, we are creating three nodes, one for each number, then setting the next pointers accordingly. You can try playing around with the code yourself in the interactive playground (you can edit the code and run it to see the console output).
+Here's some example code for creating a linked list to represent the data `1 --> 2 --> 3.` As you can see, the class that defines a node has a field val which will hold the data, and a next pointer which references the next node. In the code, we are creating three nodes, one for each number, then setting the next pointers accordingly. You can try playing around with the code yourself in the interactive playground (you can edit the code and run it to see the console output).
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
     
-one = ListNode(1)
-two = ListNode(2)
-three = ListNode(3)
-one.next = two
-two.next = three
-head = one
+    one = ListNode(1)
+    two = ListNode(2)
+    three = ListNode(3)
+    one.next = two
+    two.next = three
+    head = one
 
-print(head.val)
-print(head.next.val)
-print(head.next.next.val)
+    print(head.val)
+    print(head.next.val)
+    print(head.next.next.val)
 
 We call the node with the 1 the head because it is the start of the linked list. Usually, you will want to keep a reference to the head. This is because the head is the only node from where you can reach all elements in the linked list (you might have noticed that we can't go backward), so by keeping a reference to it, you ensure that you never "lose" any elements.
 
@@ -65,31 +65,32 @@ Assignment (=)
 
 When you assign a pointer to an existing linked list node, the pointer refers to the object in memory. Let's say you have a node head:
 
-ptr = head
-head = head.next
-head = None
+    ptr = head
+    head = head.next
+    head = None
 
 
 After these lines of code, ptr still refers to the original head node, even though the head variable changed. This is the first important concept: variables remain at nodes unless they are modified directly (ptr = something is the only way to modify ptr).
 
 ### Chaining .next
 
-If you have multiple .next, for example head.next.next, everything before the final .next refers to one node. For example, given a linked list 1 -> 2 -> 3, if you have head pointing at the first node, and you do head.next.next, you are actually referring to 2.next, because head.next is the 2. We'll soon see that this is a very useful technique.
+If you have multiple `.next`, for example `head.next.next`, everything before the final `.next` refers to one node. For example, given a linked list 
+`1 -> 2 -> 3`, if you have head pointing at the first node, and you do `head.next.next`, you are actually referring to `2.next`, because `head.next` is the 2. We'll soon see that this is a very useful technique.
 
 ### Traversal
 
 Iterating forward through a linked list can be done with a simple loop. This is the usual code that you will use to do so: as an example let's get the sum of all values from an integer linked list:
 
-def get_sum(head):
-    ans = 0
-    while head:
-        ans += head.val
-        head = head.next
-    
-    return ans
+    def get_sum(head):
+        ans = 0
+        while head:
+            ans += head.val
+            head = head.next
+        
+        return ans
 
 
-The final node's next pointer is null. Therefore, after doing head = head.next at the final node, head becomes null and the while loop ends.
+The final node's next pointer is `null`. Therefore, after doing `head = head.next` at the final node, `head` becomes null and the while loop ends.
 
 ## Types of linked lists
 ### Singly linked list
@@ -98,15 +99,15 @@ This is the most common type of linked list and the one that is given in the cod
 
 Let's say you want to add an element to a linked list so that it becomes the element at position i. To do this, you need to have a pointer to the element currently at position i - 1. The next element (currently at position i), call it x, will be pushed to the element at position i + 1 after the insertion. This means that x should become the next node to the one being added, and the node being added should become the next node to the one currently at i - 1. Here's some code and images demonstrating:
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
 
 # Let prev_node be the node at position i - 1
-def add_node(prev_node, node_to_add):
-    node_to_add.next = prev_node.next
-    prev_node.next = node_to_add
+    def add_node(prev_node, node_to_add):
+        node_to_add.next = prev_node.next
+        prev_node.next = node_to_add
 
 Note: it is unusual that you will have a pointer to the node at the position before where you want to perform an operation, but we are writing these functions as a demonstration. Typically you will be doing these operations on the fly, as you iterate through the list. If you don't have a pointer to the desired position at all, you will need to iterate from the head until you are at the desired position, which means the operation would be 
 �
@@ -123,14 +124,14 @@ O(1).
 Let's say you want to delete the element at position i. Again, you need to have a pointer to the element currently at position i - 1. The element at position i + 1, call it x, will be shifted over to be at position i after the deletion. Therefore, you should set x as the next node to the element currently at position i - 1. Here's some code and images demonstrating:
 
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
 
 # Let prev_node be the node at position i - 1
-def delete_node(prev_node):
-    prev_node.next = prev_node.next.next
+    def delete_node(prev_node):
+        prev_node.next = prev_node.next.next
 
 
 prevNode.next is the node being deleted. prevNode.next.next is the node after that which should be kept. We change the next pointer of prevNode to point at that node instead of the one being deleted.
@@ -150,7 +151,7 @@ O(1). However, without that reference, you need to obtain the reference by itera
 )
 O(n).
 
-Doubly linked list
+### Doubly linked list
 
 A doubly linked list is like a singly linked list, but each node also contains a pointer to the previous node. This pointer is usually called prev, and it allows iteration in both directions.
 
@@ -159,29 +160,29 @@ In a singly linked list, we needed a reference to the node at i - 1 if we wanted
 With a doubly linked list, we need to do extra work to also update the prev pointers
 
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
-        self.prev = None
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
+            self.prev = None
 
 # Let node be the node at position i
-def add_node(node, node_to_add):
-    prev_node = node.prev
-    node_to_add.next = node
-    node_to_add.prev = prev_node
-    prev_node.next = node_to_add
-    node.prev = node_to_add
+    def add_node(node, node_to_add):
+        prev_node = node.prev
+        node_to_add.next = node
+        node_to_add.prev = prev_node
+        prev_node.next = node_to_add
+        node.prev = node_to_add
 
 # Let node be the node at position i
-def delete_node(node):
-    prev_node = node.prev
-    next_node = node.next
-    prev_node.next = next_node
-    next_node.prev = prev_node
+    def delete_node(node):
+        prev_node = node.prev
+        next_node = node.next
+        prev_node.next = next_node
+        next_node.prev = prev_node
 
 
-Linked lists with sentinel nodes
+### Linked lists with sentinel nodes
 
 We call the start of a linked list the head and the end of a linked list the tail.
 
@@ -202,60 +203,60 @@ O(1) if we have a reference to the node at the position we are performing the op
 O(1).
 
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
-        self.prev = None
-
-def add_to_end(node_to_add):
-    node_to_add.next = tail
-    node_to_add.prev = tail.prev
-    tail.prev.next = node_to_add
-    tail.prev = node_to_add
-
-def remove_from_end():
-    if head.next == tail:
-        return
-
-    node_to_remove = tail.prev
-    node_to_remove.prev.next = tail
-    tail.prev = node_to_remove.prev
-
-def add_to_start(node_to_add):
-    node_to_add.prev = head
-    node_to_add.next = head.next
-    head.next.prev = node_to_add
-    head.next = node_to_add
-
-def remove_from_start():
-    if head.next == tail:
-        return
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
+            self.prev = None
     
-    node_to_remove = head.next
-    node_to_remove.next.prev = head
-    head.next = node_to_remove.next
+    def add_to_end(node_to_add):
+        node_to_add.next = tail
+        node_to_add.prev = tail.prev
+        tail.prev.next = node_to_add
+        tail.prev = node_to_add
+    
+    def remove_from_end():
+        if head.next == tail:
+            return
+    
+        node_to_remove = tail.prev
+        node_to_remove.prev.next = tail
+        tail.prev = node_to_remove.prev
 
-head = ListNode(None)
-tail = ListNode(None)
-head.next = tail
-tail.prev = head
+    def add_to_start(node_to_add):
+        node_to_add.prev = head
+        node_to_add.next = head.next
+        head.next.prev = node_to_add
+        head.next = node_to_add
+    
+    def remove_from_start():
+        if head.next == tail:
+            return
+        
+        node_to_remove = head.next
+        node_to_remove.next.prev = head
+        head.next = node_to_remove.next
+    
+    head = ListNode(None)
+    tail = ListNode(None)
+    head.next = tail
+    tail.prev = head
 
 
-Dummy pointers
+### Dummy pointers
 
 As mentioned earlier, we usually want to keep a reference to the head to ensure we can always access any element. Sometimes, it's better to traverse using a "dummy" pointer and to keep head at the head.
 
 
-def get_sum(head):
-    ans = 0
-    dummy = head
-    while dummy:
-        ans += dummy.val
-        dummy = dummy.next
+    def get_sum(head):
+        ans = 0
+        dummy = head
+        while dummy:
+            ans += dummy.val
+            dummy = dummy.next
     
-    # same as before, but we still have a pointer at the head
-    return ans
+        # same as before, but we still have a pointer at the head
+        return ans
 
 
 Using the dummy pointer allows us to traverse the linked list without losing a reference to the head.
@@ -263,15 +264,15 @@ Using the dummy pointer allows us to traverse the linked list without losing a r
 As an exercise, use the interactive playground to implement a doubly linked list 1 <-> 2 <-> 3.
 
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
-        self.prev = None
-    
-# Write your code here
-# Try creating 1 <-> 2 <-> 3
-# Test with print()
+    class ListNode:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
+            self.prev = None
+        
+    # Write your code here
+    # Try creating 1 <-> 2 <-> 3
+    # Test with print()
 
 
 A large part of linked lists is moving pointers around. It's important to build an intuition behind how to correctly re-assign pointers and the order in which the re-assignments should happen. The best way to do this is to see the process visually and to work through examples. Read through the code in the above sections and watch the associated animations until you have a strong understanding of how addition and removal are handled.
